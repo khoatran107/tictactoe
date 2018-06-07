@@ -9,7 +9,12 @@ char quanthang = ' ';
 
 void Draw()
 {
+    #ifdef linux
+    system("tput clear");
+    #endif
+    #ifdef _WIN32
     system("cls");
+    #endif
     for (int i = 0; i < 9 ; i++)
     {
         cout << motO[i] << " ";
@@ -35,12 +40,7 @@ void Danh()
     motO[a-1] = luot;
 }
 bool Win(){
-    // if ((motO[0]==motO[1]) && (motO[1]==motO[2])) return true;
-    // if ((motO[3]==motO[4]) && (motO[4]==motO[5])) return true;
-    // if ((motO[6]==motO[7]) && (motO[8]==motO[7])) return true;
-    // if ((motO[0]==motO[3]) && (motO[3]==motO[6])) return true;
-    // if ((motO[1]==motO[4]) && (motO[4]==motO[7])) return true;
-    // if ((motO[2]==motO[5]) && (motO[5]==motO[8])) return true;
+
     if ((motO[0]==motO[4]) && (motO[4]==motO[8])) {
         return true;
         quanthang = motO[0];
@@ -79,32 +79,59 @@ void PlayWithHuman()
     cout << quanthang << "chien thang !!!"<< endl;
 }
 
+bool isMine(char a, char b)
+{
+    if ((a == b) && (a == 'O')) return true;
+    return false;
+}
+
+bool isYours(char a, char b)
+{
+    if ((a == b) && (a == 'X')) return true;
+    return false;
+}
+
 
 int Attack()
 {
     for (int i = 0 ; i < 3; i++)
       {
-        if (motO[i] == motO[i+3]) return i+6;
-        if (motO[i*3] == motO[(i*3)+1]) return (i*3)+2;
-        if (motO[i] == motO[i+6]) return i+3;
-        if (motO[i*3] == motO[i*3+2]) return i*3+1;
+        if (isMine(motO[i],motO[i+3])) return (i+6);
+        else if (isMine(motO[i*3],motO[(i*3)+1])) return ((i*3)+2);
+        else if (isMine(motO[i],motO[i+6])) return (i+3);
+        else if (isMine(motO[i*3],motO[i*3+2])) return ((i*3)+1);
       }
-    if (motO[0] == motO[4]) return 8;
-    if (motO[4] == motO[8]) return 0;
-    if (motO[0] == motO[8]) return 4;
-    if (motO[2] == motO[4]) return 6;
-    if (motO[4] == motO[6]) return 2;
-    if (motO[6] == motO[2]) return 4;
+    if (isMine(motO[0],motO[4])) return 8;
+    else if (isMine(motO[4],motO[8])) return 0;
+    else if (isMine(motO[0],motO[8])) return 4;
+    else if (isMine(motO[2],motO[4])) return 6;
+    else if (isMine(motO[4],motO[6])) return 2;
+    else if (isMine(motO[6],motO[2])) return 4;
+    else
+    for (int i = 0 ; i < 3; i++)
+      {
+        if (isYours(motO[i],motO[i+3])) return (i+6);
+        else if (isYours(motO[i*3],motO[(i*3)+1])) return ((i*3)+2);
+        else if (isYours(motO[i],motO[i+6])) return (i+3);
+        else if (isYours(motO[i*3],motO[i*3+2])) return ((i*3)+1);
+      }
+    if (isYours(motO[0],motO[4])) return 8;
+    else if (isYours(motO[4],motO[8])) return 0;
+    else if (isYours(motO[0],motO[8])) return 4;
+    else if (isYours(motO[2],motO[4])) return 6;
+    else if (isYours(motO[4],motO[6])) return 2;
+    else if (isYours(motO[6],motO[2])) return 4;
+    else
     for (int i = 0; i < 9; i++)
       {
-        if (motO[i] != 'X' && motO[i]!='O') return i;
+        if (motO[i] != 'X' && motO[i] != 'O') return i;
       }
 
 }
 
 void PlayWithComputer()
 {
-  while (!Win()) {
+    do {
 
     Draw();
     int a;
@@ -113,13 +140,14 @@ void PlayWithComputer()
         cin >> a;
     }while ((a < 1) || (a > 9) || motO[a-1] == 'X' || motO[a-1] == 'O');
     motO[a-1] = 'X';
-    motO[Attack()] = 'O';
-    }
+
+    int i = Attack();
+    motO[i] = 'O';
+    }while (!Win());
 }
 
 int main()
 {
     PlayWithComputer();
-    system("pause");
     return 0;
 }
