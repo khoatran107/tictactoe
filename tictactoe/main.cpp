@@ -79,16 +79,43 @@ void PlayWithHuman()
     cout << quanthang << "chien thang !!!"<< endl;
 }
 
+
+int Attack()
+{
+    for (int i = 0 ; i < 3; i++)
+      {
+        if (motO[i] == motO[i+3]) return i+6;
+        if (motO[i*3] == motO[(i*3)+1]) return (i*3)+2;
+        if (motO[i] == motO[i+6]) return i+3;
+        if (motO[i*3] == motO[i*3+2]) return i*3+1;
+      }
+    if (motO[0] == motO[4]) return 8;
+    if (motO[4] == motO[8]) return 0;
+    if (motO[0] == motO[8]) return 4;
+    if (motO[2] == motO[4]) return 6;
+    if (motO[4] == motO[6]) return 2;
+    if (motO[6] == motO[2]) return 4;
+    for (int i = 0; i < 9; i++)
+      {
+        if (motO[i] != 'X') return i;
+      }
+
+}
+
 void PlayWithComputer()
 {
+  while (!Win()) {
+
     Draw();
     Danh();
-
+    Doicho();
+    motO[Attack()] = luot;
+    }
 }
 
 int main()
 {
-    PlayWithHuman();
+    PlayWithComputer();
     system("pause");
     return 0;
 }
