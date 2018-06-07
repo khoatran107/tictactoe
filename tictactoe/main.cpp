@@ -82,12 +82,16 @@ void PlayWithHuman()
 bool isMine(char a, char b)
 {
     if ((a == b) && (a == 'O')) return true;
+    else
+    return false;
     return false;
 }
 
 bool isYours(char a, char b)
 {
     if ((a == b) && (a == 'X')) return true;
+    else
+    return false;
     return false;
 }
 
