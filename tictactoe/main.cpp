@@ -23,7 +23,7 @@ void Doicho()
         luot = 'O';
     }
     else if (luot == 'O') luot = 'X';
-};
+}
 
 void Danh()
 {
@@ -33,7 +33,7 @@ void Danh()
         cin >> a;
     }while ((a < 1) || (a > 9) || motO[a-1] == 'X' || motO[a-1] == 'O');
     motO[a-1] = luot;
-};
+}
 bool Win(){
     // if ((motO[0]==motO[1]) && (motO[1]==motO[2])) return true;
     // if ((motO[3]==motO[4]) && (motO[4]==motO[5])) return true;
@@ -65,6 +65,7 @@ bool Win(){
             quanthang = motO[i];
         }
     }
+    return false;
 }
 
 void PlayWithHuman()
