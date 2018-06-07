@@ -97,7 +97,7 @@ int Attack()
     if (motO[6] == motO[2]) return 4;
     for (int i = 0; i < 9; i++)
       {
-        if (motO[i] != 'X') return i;
+        if (motO[i] != 'X' && motO[i]!='O') return i;
       }
 
 }
@@ -107,9 +107,13 @@ void PlayWithComputer()
   while (!Win()) {
 
     Draw();
-    Danh();
-    Doicho();
-    motO[Attack()] = luot;
+    int a;
+    do {
+        cout << "Danh vao o so : " ;
+        cin >> a;
+    }while ((a < 1) || (a > 9) || motO[a-1] == 'X' || motO[a-1] == 'O');
+    motO[a-1] = 'X';
+    motO[Attack()] = 'O';
     }
 }
 
