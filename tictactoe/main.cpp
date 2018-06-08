@@ -17,7 +17,7 @@ void Doicho();
 
 void PlayWithComputer();
 void PlayWithHuman();
-
+/*===============================================================*/
 int main()
 {
 
@@ -28,7 +28,6 @@ int main()
           cout << "2. Choi voi may tinh. " << endl;
           cout << "3. Thoat. " << endl;
           cout << "Chon : " ;
-          cin.ignore();
           cin >> chon;
           if (chon == 1) PlayWithHuman();
           else if (chon == 2) PlayWithComputer();
@@ -36,11 +35,11 @@ int main()
     }while(true);
     return 0;
 }
-
+/*===============================================================*/
 void Draw()
 {
     #ifdef linux
-    system("tput clear");
+    system("clear");
     #endif
     #ifdef _WIN32
     system("cls");
@@ -51,7 +50,7 @@ void Draw()
         if (((i + 1) % 3 == 0) && ((i + 1) > 0)) cout << endl;
     }
 }
-
+/*===============================================================*/
 void Doicho()
 {
     if (luot == 'X'){
@@ -59,7 +58,7 @@ void Doicho()
     }
     else if (luot == 'O') luot = 'X';
 }
-
+/*===============================================================*/
 void Danh()
 {
     int a;
@@ -69,6 +68,7 @@ void Danh()
     }while ((a < 1) || (a > 9) || motO[a-1] == 'X' || motO[a-1] == 'O');
     motO[a-1] = luot;
 }
+/*================================================================*/
 bool Win(){
 
     if ((motO[0]==motO[4]) && (motO[4]==motO[8])) {
@@ -93,7 +93,7 @@ bool Win(){
     }
     return false;
 }
-
+/*==================================================================*/
 char Winner()
 {
     if ((motO[0]==motO[4]) && (motO[4]==motO[8])) {
@@ -118,7 +118,7 @@ char Winner()
     }
     return 'X';
 }
-
+/*===================================================================*/
 void PlayWithHuman()
 {
     while (!Win()){
@@ -129,71 +129,68 @@ void PlayWithHuman()
     }
     cout << Winner() << " chien thang !!!"<< endl;
 }
-
-bool isMine(char a, char b)
+/*===============================================================*/
+bool isMine(char a, char b, char c)
 {
-    if (( b == 'O') && (a == 'O')) return true;
+    if (( b == 'O') && (a == 'O') && (c!= 'X') && (c!='O')) return true;
     else
     return false;
 }
-
-bool isYours(char a, char b)
+/*===============================================================*/
+bool isYours(char a, char b, char c)
 {
-    if ((b == 'X') && (a == 'X')) return true;
+    if ((b == 'X') && (a == 'X') && (c!= 'X') && (c!='O')) return true;
     else
     return false;
 }
-
+/*===============================================================*/
 
 int Attack()
 {
     for (int i = 0; i < 3; i++)
     {
-        if (isMine(motO[i],motO[i+3])) return (i+6);
-        else if (isMine(motO[i+3],motO[i+6])) return (i);
-        else if (isMine(motO[i+6],motO[i])) return (i+3);
+        if (isMine(motO[i],motO[i+3],motO[i+6])) return (i+6);
+        else if (isMine(motO[i+3],motO[i+6],motO[i])) return (i);
+        else if (isMine(motO[i+6],motO[i],motO[i+3])) return (i+3);
 
-        else if (isMine(motO[i*3],motO[i*3+1])) return i*3+2;
-        else if (isMine(motO[i*3+1],motO[i*3+2])) return i*3;
-        else if (isMine(motO[i*3],motO[i*3+2])) return i*3+1;
+        else if (isMine(motO[i*3],motO[i*3+1],motO[i*3+2])) return i*3+2;
+        else if (isMine(motO[i*3+1],motO[i*3+2],motO[i*3])) return i*3;
+        else if (isMine(motO[i*3],motO[i*3+2],motO[i*3+1])) return i*3+1;
 
     }
-    if (isMine(motO[0],motO[4])) return 8;
-    else if (isMine(motO[4],motO[8])) return 0;
-    else if (isMine(motO[0],motO[8])) return 4;
-    else if (isMine(motO[2],motO[4])) return 6;
-    else if (isMine(motO[4],motO[6])) return 2;
-    else if (isMine(motO[6],motO[2])) return 4;
+    if (isMine(motO[0],motO[4],motO[8])) return 8;
+    else if (isMine(motO[4],motO[8],motO[0])) return 0;
+    else if (isMine(motO[0],motO[8],motO[4])) return 4;
+    else if (isMine(motO[2],motO[4],motO[6])) return 6;
+    else if (isMine(motO[4],motO[6],motO[2])) return 2;
+    else if (isMine(motO[6],motO[2],motO[4])) return 4;
     else
-
     for (int i = 0; i < 3; i++)
       {
-          if (isYours(motO[i],motO[i+3])) return (i+6);
-          else if (isYours(motO[i+3],motO[i+6])) return (i);
-          else if (isYours(motO[i+6],motO[i])) return (i+3);
+          if (isYours(motO[i],motO[i+3],motO[i+6])) return (i+6);
+          else if (isYours(motO[i+3],motO[i+6],motO[i])) return (i);
+          else if (isYours(motO[i+6],motO[i],motO[i+3])) return (i+3);
 
-          else if (isYours(motO[i*3],motO[i*3+1])) return i*3+2;
-          else if (isYours(motO[i*3+1],motO[i*3+2])) return i*3;
-          else if (isYours(motO[i*3],motO[i*3+2])) return i*3+1;
+          else if (isYours(motO[i*3],motO[i*3+1],motO[i*3+2])) return i*3+2;
+          else if (isYours(motO[i*3+1],motO[i*3+2],motO[i*3])) return i*3;
+          else if (isYours(motO[i*3],motO[i*3+2],motO[i*3+1])) return i*3+1;
 
       }
 
-    if (isYours(motO[0],motO[4])) return 8;
-    else if (isYours(motO[4],motO[8])) return 0;
-    else if (isYours(motO[0],motO[8])) return 4;
-
-    else if (isYours(motO[2],motO[4])) return 6;
-    else if (isYours(motO[4],motO[6])) return 2;
-    else if (isYours(motO[6],motO[2])) return 4;
+    if (isYours(motO[0],motO[4],motO[8])) return 8;
+    else if (isYours(motO[4],motO[8],motO[0])) return 0;
+    else if (isYours(motO[0],motO[8],motO[4])) return 4;
+    else if (isYours(motO[2],motO[4],motO[6])) return 6;
+    else if (isYours(motO[4],motO[6],motO[2])) return 2;
+    else if (isYours(motO[6],motO[2],motO[4])) return 4;
         else
-
     for (int i = 0; i < 9; i++)
       {
         if ((motO[i] != 'X') && (motO[i] != 'O')) return i;
       }
     return 0;
 }
-
+/*===============================================================*/
 void PlayWithComputer()
 {
     do {
@@ -203,7 +200,6 @@ void PlayWithComputer()
         cin >> a;
     }while ((a < 1) || (a > 9) || motO[a-1] == 'X' || motO[a-1] == 'O');
     motO[a-1] = 'X';
-    Draw();
     DanhO();
     Draw();
     }while (!Win());
@@ -215,4 +211,4 @@ void DanhO()
     int o = Attack();
     motO[o] = 'O';
 }
-
+/*===============================================================*/
