@@ -7,6 +7,24 @@ char motO[9] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char luot = 'X';
 char quanthang = ' ';
 
+bool Win();
+bool isMine(char a, char b);
+bool isYours(char a, char b);
+
+int Attack();
+void Draw();
+void DanhO();
+void Doicho();
+
+void PlayWithComputer();
+void PlayWithHuman();
+
+int main()
+{
+    PlayWithComputer();
+    return 0;
+}
+
 void Draw()
 {
     #ifdef linux
@@ -81,7 +99,7 @@ void PlayWithHuman()
 
 bool isMine(char a, char b)
 {
-    if ((a == b) && (a == 'O')) return true;
+    if (( b == 'O') && (a == 'O')) return true;
     else
     return false;
     return false;
@@ -89,7 +107,7 @@ bool isMine(char a, char b)
 
 bool isYours(char a, char b)
 {
-    if ((a == b) && (a == 'X')) return true;
+    if ((b == 'X') && (a == 'X')) return true;
     else
     return false;
     return false;
@@ -111,7 +129,7 @@ int Attack()
     else if (isMine(motO[2],motO[4])) return 6;
     else if (isMine(motO[4],motO[6])) return 2;
     else if (isMine(motO[6],motO[2])) return 4;
-    else
+
     for (int i = 0 ; i < 3; i++)
       {
         if (isYours(motO[i],motO[i+3])) return (i+6);
@@ -125,33 +143,30 @@ int Attack()
     else if (isYours(motO[2],motO[4])) return 6;
     else if (isYours(motO[4],motO[6])) return 2;
     else if (isYours(motO[6],motO[2])) return 4;
-    else
+
     for (int i = 0; i < 9; i++)
       {
-        if (motO[i] != 'X' && motO[i] != 'O') return i;
+        if ((motO[i] != 'X') && (motO[i] != 'O')) return i;
       }
-
 }
 
 void PlayWithComputer()
 {
     do {
-
-    Draw();
     int a;
     do {
         cout << "Danh vao o so : " ;
         cin >> a;
     }while ((a < 1) || (a > 9) || motO[a-1] == 'X' || motO[a-1] == 'O');
     motO[a-1] = 'X';
-
-    int i = Attack();
-    motO[i] = 'O';
+    DanhO();
+    Draw();
     }while (!Win());
 }
 
-int main()
+void DanhO()
 {
-    PlayWithComputer();
-    return 0;
+  int o = Attack();
+  motO[o] = 'O';
 }
+
