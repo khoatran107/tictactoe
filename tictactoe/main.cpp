@@ -5,12 +5,11 @@ using namespace std;
 
 char motO[9] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char luot = 'X';
-char quanthang = ' ';
 
 bool Win();
 bool isMine(char a, char b);
 bool isYours(char a, char b);
-
+char Winner();
 int Attack();
 void Draw();
 void DanhO();
@@ -21,7 +20,17 @@ void PlayWithHuman();
 
 int main()
 {
-    PlayWithComputer();
+
+    int chon = 0;
+    do{
+          cout << "====TRO=CHOI=TIC=TAC=TOE====" << endl;
+          cout << "1. Choi voi nguoi ke ben. " << endl;
+          cout << "2. Choi voi may tinh. " << endl;
+          cout << "Chon : " ;
+          cin >> chon;
+          if (chon == 1) PlayWithHuman();
+          else if (chon == 2) PlayWithComputer();
+    }while(true);
     return 0;
 }
 
@@ -61,18 +70,15 @@ bool Win(){
 
     if ((motO[0]==motO[4]) && (motO[4]==motO[8])) {
         return true;
-        quanthang = motO[0];
     }
     if ((motO[2]==motO[4]) && (motO[4]==motO[6])) {
         return true;
-        quanthang = motO[2];
     }
     for (int i = 0; i <=6 ; i=i+3)
     {
         if ((motO[i] == motO[i+1]) && (motO[i+1] == motO[i+2]))
         {
             return true;
-            quanthang = motO[i];
         }
     }
     for (int i = 0 ; i < 3 ; i++ )
@@ -80,21 +86,45 @@ bool Win(){
         if ((motO[i]==motO[i+3]) && (motO[i+3] == motO[i+6]))
         {
             return true;
-            quanthang = motO[i];
         }
     }
     return false;
 }
 
+char Winner()
+{
+    if ((motO[0]==motO[4]) && (motO[4]==motO[8])) {
+        return motO[0];
+    }
+    if ((motO[2]==motO[4]) && (motO[4]==motO[6])) {
+        return motO[2];
+    }
+    for (int i = 0; i <=6 ; i=i+3)
+    {
+        if ((motO[i] == motO[i+1]) && (motO[i+1] == motO[i+2]))
+        {
+            return motO[i];
+        }
+    }
+    for (int i = 0 ; i < 3 ; i++ )
+    {
+        if ((motO[i]==motO[i+3]) && (motO[i+3] == motO[i+6]))
+        {
+            return motO[i];
+        }
+    }
+    return 'X';
+}
+
 void PlayWithHuman()
 {
-        while (!Win()){
+    while (!Win()){
 
         Draw();
         Danh();
         Doicho();
     }
-    cout << quanthang << "chien thang !!!"<< endl;
+    cout << Winner() << "chien thang !!!"<< endl;
 }
 
 bool isMine(char a, char b)
@@ -158,6 +188,7 @@ int Attack()
       {
         if ((motO[i] != 'X') && (motO[i] != 'O')) return i;
       }
+    return 0;
 }
 
 void PlayWithComputer()
@@ -169,16 +200,16 @@ void PlayWithComputer()
         cin >> a;
     }while ((a < 1) || (a > 9) || motO[a-1] == 'X' || motO[a-1] == 'O');
     motO[a-1] = 'X';
-
     Draw();
     DanhO();
     Draw();
     }while (!Win());
+    cout << Winner() << " chien thang !!!" << endl;
 }
 
 void DanhO()
 {
-  int o = Attack();
-  motO[o] = 'O';
+    int o = Attack();
+    motO[o] = 'O';
 }
 
