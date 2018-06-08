@@ -102,7 +102,6 @@ bool isMine(char a, char b)
     if (( b == 'O') && (a == 'O')) return true;
     else
     return false;
-    return false;
 }
 
 bool isYours(char a, char b)
@@ -110,39 +109,50 @@ bool isYours(char a, char b)
     if ((b == 'X') && (a == 'X')) return true;
     else
     return false;
-    return false;
 }
 
 
 int Attack()
 {
-    for (int i = 0 ; i < 3; i++)
-      {
+    for (int i = 0; i < 3; i++)
+    {
         if (isMine(motO[i],motO[i+3])) return (i+6);
-        else if (isMine(motO[i*3],motO[(i*3)+1])) return ((i*3)+2);
-        else if (isMine(motO[i],motO[i+6])) return (i+3);
-        else if (isMine(motO[i*3],motO[i*3+2])) return ((i*3)+1);
-      }
+        else if (isMine(motO[i+3],motO[i+6])) return (i);
+        else if (isMine(motO[i+6],motO[i])) return (i+3);
+
+        else if (isMine(motO[i*3],motO[i*3+1])) return i*3+2;
+        else if (isMine(motO[i*3+1],motO[i*3+2])) return i*3;
+        else if (isMine(motO[i*3],motO[i*3+2])) return i*3+1;
+
+    }
     if (isMine(motO[0],motO[4])) return 8;
     else if (isMine(motO[4],motO[8])) return 0;
     else if (isMine(motO[0],motO[8])) return 4;
     else if (isMine(motO[2],motO[4])) return 6;
     else if (isMine(motO[4],motO[6])) return 2;
     else if (isMine(motO[6],motO[2])) return 4;
+    else
 
-    for (int i = 0 ; i < 3; i++)
+    for (int i = 0; i < 3; i++)
       {
-        if (isYours(motO[i],motO[i+3])) return (i+6);
-        else if (isYours(motO[i*3],motO[(i*3)+1])) return ((i*3)+2);
-        else if (isYours(motO[i],motO[i+6])) return (i+3);
-        else if (isYours(motO[i*3],motO[i*3+2])) return ((i*3)+1);
+          if (isYours(motO[i],motO[i+3])) return (i+6);
+          else if (isYours(motO[i+3],motO[i+6])) return (i);
+          else if (isYours(motO[i+6],motO[i])) return (i+3);
+
+          else if (isYours(motO[i*3],motO[i*3+1])) return i*3+2;
+          else if (isYours(motO[i*3+1],motO[i*3+2])) return i*3;
+          else if (isYours(motO[i*3],motO[i*3+2])) return i*3+1;
+
       }
+
     if (isYours(motO[0],motO[4])) return 8;
     else if (isYours(motO[4],motO[8])) return 0;
     else if (isYours(motO[0],motO[8])) return 4;
+
     else if (isYours(motO[2],motO[4])) return 6;
     else if (isYours(motO[4],motO[6])) return 2;
     else if (isYours(motO[6],motO[2])) return 4;
+        else
 
     for (int i = 0; i < 9; i++)
       {
@@ -159,6 +169,8 @@ void PlayWithComputer()
         cin >> a;
     }while ((a < 1) || (a > 9) || motO[a-1] == 'X' || motO[a-1] == 'O');
     motO[a-1] = 'X';
+
+    Draw();
     DanhO();
     Draw();
     }while (!Win());
