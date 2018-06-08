@@ -26,10 +26,13 @@ int main()
           cout << "====TRO=CHOI=TIC=TAC=TOE====" << endl;
           cout << "1. Choi voi nguoi ke ben. " << endl;
           cout << "2. Choi voi may tinh. " << endl;
+          cout << "3. Thoat. " << endl;
           cout << "Chon : " ;
+          cin.ignore();
           cin >> chon;
           if (chon == 1) PlayWithHuman();
           else if (chon == 2) PlayWithComputer();
+          else break;
     }while(true);
     return 0;
 }
@@ -124,7 +127,7 @@ void PlayWithHuman()
         Danh();
         Doicho();
     }
-    cout << Winner() << "chien thang !!!"<< endl;
+    cout << Winner() << " chien thang !!!"<< endl;
 }
 
 bool isMine(char a, char b)
