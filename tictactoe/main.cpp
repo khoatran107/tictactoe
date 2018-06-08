@@ -6,7 +6,8 @@ using namespace std;
 char motO[9] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char luot = 'X';
 
-bool Win();
+void reset();
+int end();
 bool isMine(char a, char b);
 bool isYours(char a, char b);
 char Winner();
@@ -14,7 +15,6 @@ int Attack();
 void Draw();
 void DanhO();
 void Doicho();
-
 void PlayWithComputer();
 void PlayWithHuman();
 /*===============================================================*/
@@ -69,29 +69,36 @@ void Danh()
     motO[a-1] = luot;
 }
 /*================================================================*/
-bool Win(){
+int end(){
 
     if ((motO[0]==motO[4]) && (motO[4]==motO[8])) {
-        return true;
+        return 1;
     }
     if ((motO[2]==motO[4]) && (motO[4]==motO[6])) {
-        return true;
+        return 1;
     }
     for (int i = 0; i <=6 ; i=i+3)
     {
         if ((motO[i] == motO[i+1]) && (motO[i+1] == motO[i+2]))
         {
-            return true;
+            return 1;
         }
     }
     for (int i = 0 ; i < 3 ; i++ )
     {
         if ((motO[i]==motO[i+3]) && (motO[i+3] == motO[i+6]))
         {
-            return true;
+            return 1;
         }
     }
-    return false;
+    for (int i = 0; i < 9; i++)
+    {
+        if (motO[i] != 'X' && motO[i] != 'O')
+        {
+            return 0;
+        }
+    }
+    return 2;
 }
 /*==================================================================*/
 char Winner()
@@ -121,12 +128,15 @@ char Winner()
 /*===================================================================*/
 void PlayWithHuman()
 {
-    while (!Win()){
+
+    reset();
+    while (end() == 0){
 
         Draw();
         Danh();
         Doicho();
     }
+    if (end() == 1)
     cout << Winner() << " chien thang !!!"<< endl;
 }
 /*===============================================================*/
@@ -193,6 +203,8 @@ int Attack()
 /*===============================================================*/
 void PlayWithComputer()
 {
+    reset();
+    Draw();
     do {
     int a;
     do {
@@ -202,7 +214,8 @@ void PlayWithComputer()
     motO[a-1] = 'X';
     DanhO();
     Draw();
-    }while (!Win());
+    }while (end() == 0);
+    if (end() == 1)
     cout << Winner() << " chien thang !!!" << endl;
 }
 
@@ -212,3 +225,10 @@ void DanhO()
     motO[o] = 'O';
 }
 /*===============================================================*/
+void reset()
+{
+    for (int i = 0; i < 9; i++)
+    {
+        motO[i] = static_cast<char>(49+i);
+    }
+}
